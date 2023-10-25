@@ -2,17 +2,16 @@ package edu.cnm.deepdive.passphrase.service;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.res.Resources;
 import androidx.activity.result.ActivityResult;
 import androidx.activity.result.ActivityResultLauncher;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
-import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions.Builder;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.Task;
 import dagger.hilt.android.qualifiers.ApplicationContext;
+import io.reactivex.rxjava3.core.Completable;
 import io.reactivex.rxjava3.core.Single;
 import io.reactivex.rxjava3.core.SingleEmitter;
 import io.reactivex.rxjava3.schedulers.Schedulers;
@@ -68,7 +67,17 @@ public class GoogleSignInService {
             emitter.onError(e);
           }
         })
-      .observeOn(Schedulers.io());
+        .observeOn(Schedulers.io());
+  }
+
+  public Completable signOut() {
+    return Completable.create((emitter) ->
+            client
+                .signOut()
+                .addOnSuccessListener((ignored) -> emitter.onComplete())
+                .addOnFailureListener(emitter::onError)
+        )
+        .subscribeOn(Schedulers.io());
   }
 
 }
