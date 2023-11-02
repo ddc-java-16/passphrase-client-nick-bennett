@@ -25,14 +25,19 @@ public final class Passphrase {
 
   @Expose(deserialize = true, serialize = false)
   private final String key = null;
+
   @Expose(deserialize = true, serialize = false)
   private final Date created = null;
+
   @Expose(deserialize = true, serialize = false)
   private final Date modified = null;
+
   @Expose
   private String name;
+
   @Expose
   private List<String> words;
+
   @Expose(deserialize = false, serialize = true)
   private int length;
 
