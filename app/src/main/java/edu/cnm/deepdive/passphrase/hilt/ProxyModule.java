@@ -22,9 +22,12 @@ import retrofit2.converter.gson.GsonConverterFactory;
 @InstallIn(SingletonComponent.class)
 public final class ProxyModule {
 
+  ProxyModule() {
+  }
+
   @Provides
   @Singleton
-  PassphraseServiceProxy provideProxy(@ApplicationContext Context context) {
+  public PassphraseServiceProxy provideProxy(@ApplicationContext Context context) {
     Gson gson = new GsonBuilder()
         .excludeFieldsWithoutExposeAnnotation()
         .setDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ")

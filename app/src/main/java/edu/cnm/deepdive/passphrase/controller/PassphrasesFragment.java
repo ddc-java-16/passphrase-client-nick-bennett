@@ -33,7 +33,6 @@ public class PassphrasesFragment extends Fragment {
     binding.search.setOnClickListener((v) ->
         viewModel.search(binding.searchText.getText().toString()));
     binding.create.setOnClickListener((v) -> openDialog(null));
-    // TODO: 11/2/23 Attach listeners.
     return binding.getRoot();
   }
 

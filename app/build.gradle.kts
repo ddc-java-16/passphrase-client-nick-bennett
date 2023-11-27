@@ -129,15 +129,16 @@ dependencies {
     androidTestImplementation(libs.junit.params)
     androidTestImplementation(libs.espresso.core)
 
-    constraints {
-        implementation(libs.kotlin.jdk7) {
-            because("kotlin-stdlib-jdk7 is now a part of kotlin-stdlib")
-        }
-        //noinspection ForeignDelegate
-        implementation(libs.kotlin.jdk8) {
-            because("kotlin-stdlib-jdk8 is now a part of kotlin-stdlib")
-        }
-    }
+}
+
+tasks.clean {
+    delete.add("$projectDir/../docs/api")
+}
+
+tasks.register("generateApiDoc") {
+    group = "reporting"
+    description = "Generates Javadoc HTML for all build variants. (Generated output for variants " +
+            "after the first will overwrite the output for previous variants.)"
 }
 
 android.applicationVariants.configureEach {
@@ -151,34 +152,34 @@ android.applicationVariants.configureEach {
         }
     }
 
+    val docTitle = "${project.property("appName")} ${android.defaultConfig.versionName}"
+
     val task = project.tasks.create("generate${variantName}Javadoc", Javadoc::class.java) {
-        title = "${project.property("appName")} (${android.defaultConfig.versionName})"
-        group = "ApiDoc"
-        description = "Generates Javadoc for $variantName"
+        title = docTitle
+        group = "reporting"
+        description = "Generates Javadoc for $simpleName build variant."
 
         source = javaCompileProvider.get().source
+        exclude(
+            "**/*FragmentDirections.java",
+            "**/*FragmentArgs.java",
+            "**/databinding/*.java",
+            "**/*_*.java",
+            "**/R.java",
+            "**/BuildConfig*.java"
+        )
+        setDestinationDir(file("$projectDir/../docs/api"))
 
         doFirst {
             classpath = project.files(
-                projectDir
-                    .toPath()
-                    .resolve("build/intermediates/javac/${simpleName}/classes"),
+                projectDir.resolve("build/intermediates/javac/$simpleName/classes"),
                 javaCompileProvider.get().classpath.files,
                 android.bootClasspath
             )
         }
 
-        exclude(
-            "**/R",
-            "**/R.**",
-            "**/R\$**",
-            "**/BuildConfig*"
-        )
-
-        setDestinationDir(file("$projectDir/../docs/api"))
-
-        with (options as StandardJavadocDocletOptions) {
-            windowTitle = "${project.property("appName")} (${android.defaultConfig.versionName})"
+        with(options as StandardJavadocDocletOptions) {
+            windowTitle = docTitle
             memberLevel = JavadocMemberLevel.PROTECTED
             isLinkSource = true
             isAuthor = false
@@ -193,11 +194,12 @@ android.applicationVariants.configureEach {
             addBooleanOption("html5", true)
             addStringOption("Xdoclint:none", "-quiet")
         }
+
         isFailOnError = true
     }
 
-    task.dependsOn("assemble$variantName")
-//    tasks["generateApiDoc"].dependsOn(task)
+    task.dependsOn(tasks["assemble$variantName"])
+    tasks["generateApiDoc"].dependsOn(task)
 }
 
 fun getLocalProperty(name: String): String? {

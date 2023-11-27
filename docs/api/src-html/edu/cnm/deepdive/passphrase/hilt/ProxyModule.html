@@ -35,28 +35,31 @@
 <span class="source-line-no">022</span><span id="line-22">@InstallIn(SingletonComponent.class)</span>
 <span class="source-line-no">023</span><span id="line-23">public final class ProxyModule {</span>
 <span class="source-line-no">024</span><span id="line-24"></span>
-<span class="source-line-no">025</span><span id="line-25">  @Provides</span>
-<span class="source-line-no">026</span><span id="line-26">  @Singleton</span>
-<span class="source-line-no">027</span><span id="line-27">  PassphraseServiceProxy provideProxy(@ApplicationContext Context context) {</span>
-<span class="source-line-no">028</span><span id="line-28">    Gson gson = new GsonBuilder()</span>
-<span class="source-line-no">029</span><span id="line-29">        .excludeFieldsWithoutExposeAnnotation()</span>
-<span class="source-line-no">030</span><span id="line-30">        .setDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ")</span>
-<span class="source-line-no">031</span><span id="line-31">        .create();</span>
-<span class="source-line-no">032</span><span id="line-32">    HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();</span>
-<span class="source-line-no">033</span><span id="line-33">    interceptor.setLevel(Level.BODY);</span>
-<span class="source-line-no">034</span><span id="line-34">    OkHttpClient client = new OkHttpClient.Builder()</span>
-<span class="source-line-no">035</span><span id="line-35">        .addInterceptor(interceptor)</span>
-<span class="source-line-no">036</span><span id="line-36">        .build();</span>
-<span class="source-line-no">037</span><span id="line-37">    Retrofit retrofit = new Retrofit.Builder()</span>
-<span class="source-line-no">038</span><span id="line-38">        .baseUrl(context.getString(R.string.service_base_url))</span>
-<span class="source-line-no">039</span><span id="line-39">        .addConverterFactory(GsonConverterFactory.create(gson))</span>
-<span class="source-line-no">040</span><span id="line-40">        .addCallAdapterFactory(RxJava3CallAdapterFactory.create())</span>
-<span class="source-line-no">041</span><span id="line-41">        .client(client)</span>
-<span class="source-line-no">042</span><span id="line-42">        .build();</span>
-<span class="source-line-no">043</span><span id="line-43">    return retrofit.create(PassphraseServiceProxy.class);</span>
-<span class="source-line-no">044</span><span id="line-44">  }</span>
-<span class="source-line-no">045</span><span id="line-45"></span>
-<span class="source-line-no">046</span><span id="line-46">}</span>
+<span class="source-line-no">025</span><span id="line-25">  ProxyModule() {</span>
+<span class="source-line-no">026</span><span id="line-26">  }</span>
+<span class="source-line-no">027</span><span id="line-27"></span>
+<span class="source-line-no">028</span><span id="line-28">  @Provides</span>
+<span class="source-line-no">029</span><span id="line-29">  @Singleton</span>
+<span class="source-line-no">030</span><span id="line-30">  public PassphraseServiceProxy provideProxy(@ApplicationContext Context context) {</span>
+<span class="source-line-no">031</span><span id="line-31">    Gson gson = new GsonBuilder()</span>
+<span class="source-line-no">032</span><span id="line-32">        .excludeFieldsWithoutExposeAnnotation()</span>
+<span class="source-line-no">033</span><span id="line-33">        .setDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ")</span>
+<span class="source-line-no">034</span><span id="line-34">        .create();</span>
+<span class="source-line-no">035</span><span id="line-35">    HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();</span>
+<span class="source-line-no">036</span><span id="line-36">    interceptor.setLevel(Level.BODY);</span>
+<span class="source-line-no">037</span><span id="line-37">    OkHttpClient client = new OkHttpClient.Builder()</span>
+<span class="source-line-no">038</span><span id="line-38">        .addInterceptor(interceptor)</span>
+<span class="source-line-no">039</span><span id="line-39">        .build();</span>
+<span class="source-line-no">040</span><span id="line-40">    Retrofit retrofit = new Retrofit.Builder()</span>
+<span class="source-line-no">041</span><span id="line-41">        .baseUrl(context.getString(R.string.service_base_url))</span>
+<span class="source-line-no">042</span><span id="line-42">        .addConverterFactory(GsonConverterFactory.create(gson))</span>
+<span class="source-line-no">043</span><span id="line-43">        .addCallAdapterFactory(RxJava3CallAdapterFactory.create())</span>
+<span class="source-line-no">044</span><span id="line-44">        .client(client)</span>
+<span class="source-line-no">045</span><span id="line-45">        .build();</span>
+<span class="source-line-no">046</span><span id="line-46">    return retrofit.create(PassphraseServiceProxy.class);</span>
+<span class="source-line-no">047</span><span id="line-47">  }</span>
+<span class="source-line-no">048</span><span id="line-48"></span>
+<span class="source-line-no">049</span><span id="line-49">}</span>
 
 
 

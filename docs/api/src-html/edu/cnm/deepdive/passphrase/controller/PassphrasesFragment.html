@@ -46,54 +46,53 @@
 <span class="source-line-no">033</span><span id="line-33">    binding.search.setOnClickListener((v) -&gt;</span>
 <span class="source-line-no">034</span><span id="line-34">        viewModel.search(binding.searchText.getText().toString()));</span>
 <span class="source-line-no">035</span><span id="line-35">    binding.create.setOnClickListener((v) -&gt; openDialog(null));</span>
-<span class="source-line-no">036</span><span id="line-36">    // TODO: 11/2/23 Attach listeners.</span>
-<span class="source-line-no">037</span><span id="line-37">    return binding.getRoot();</span>
-<span class="source-line-no">038</span><span id="line-38">  }</span>
-<span class="source-line-no">039</span><span id="line-39"></span>
-<span class="source-line-no">040</span><span id="line-40">  @Override</span>
-<span class="source-line-no">041</span><span id="line-41">  public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {</span>
-<span class="source-line-no">042</span><span id="line-42">    super.onViewCreated(view, savedInstanceState);</span>
-<span class="source-line-no">043</span><span id="line-43">    viewModel = new ViewModelProvider(requireActivity())</span>
-<span class="source-line-no">044</span><span id="line-44">        .get(PassphraseViewModel.class);</span>
-<span class="source-line-no">045</span><span id="line-45">    getLifecycle().addObserver(viewModel);</span>
-<span class="source-line-no">046</span><span id="line-46">    viewModel</span>
-<span class="source-line-no">047</span><span id="line-47">        .getPassphrases()</span>
-<span class="source-line-no">048</span><span id="line-48">        .observe(</span>
-<span class="source-line-no">049</span><span id="line-49">            getViewLifecycleOwner(),</span>
-<span class="source-line-no">050</span><span id="line-50">            (passphrases) -&gt;</span>
-<span class="source-line-no">051</span><span id="line-51">                binding.passphrases.setAdapter(</span>
-<span class="source-line-no">052</span><span id="line-52">                    new PassphrasesAdapter(</span>
-<span class="source-line-no">053</span><span id="line-53">                        requireContext(),</span>
-<span class="source-line-no">054</span><span id="line-54">                        passphrases,</span>
-<span class="source-line-no">055</span><span id="line-55">                        (v, pos, passphrase) -&gt; openDialog(passphrase.getKey()),</span>
-<span class="source-line-no">056</span><span id="line-56">                        (v, pos, passphrase) -&gt; showPopUpMenu(v, passphrase)</span>
-<span class="source-line-no">057</span><span id="line-57">                    )</span>
-<span class="source-line-no">058</span><span id="line-58">                )</span>
-<span class="source-line-no">059</span><span id="line-59">        );</span>
-<span class="source-line-no">060</span><span id="line-60">  }</span>
-<span class="source-line-no">061</span><span id="line-61"></span>
-<span class="source-line-no">062</span><span id="line-62">  private void openDialog(String key) {</span>
-<span class="source-line-no">063</span><span id="line-63">    Navigation.findNavController(binding.getRoot())</span>
-<span class="source-line-no">064</span><span id="line-64">        .navigate(PassphrasesFragmentDirections.openEditPassphraseFragment().setKey(key));</span>
-<span class="source-line-no">065</span><span id="line-65">  }</span>
-<span class="source-line-no">066</span><span id="line-66"></span>
-<span class="source-line-no">067</span><span id="line-67">  private void showPopUpMenu(View view, Passphrase passphrase) {</span>
-<span class="source-line-no">068</span><span id="line-68">    PopupMenu popup = new PopupMenu(requireContext(), view);</span>
-<span class="source-line-no">069</span><span id="line-69">    Menu menu = popup.getMenu();</span>
-<span class="source-line-no">070</span><span id="line-70">    popup.getMenuInflater().inflate(R.menu.passphrase_actions, menu);</span>
-<span class="source-line-no">071</span><span id="line-71">    menu.findItem(R.id.edit_passphrase).setOnMenuItemClickListener((item) -&gt; {</span>
-<span class="source-line-no">072</span><span id="line-72">      openDialog(passphrase.getKey());</span>
-<span class="source-line-no">073</span><span id="line-73">      return true;</span>
-<span class="source-line-no">074</span><span id="line-74">    });</span>
-<span class="source-line-no">075</span><span id="line-75">    menu.findItem(R.id.delete_passphrase).setOnMenuItemClickListener((item) -&gt; {</span>
-<span class="source-line-no">076</span><span id="line-76">      // TODO: 11/7/23 Ask for user confirmation.</span>
-<span class="source-line-no">077</span><span id="line-77">      viewModel.delete(passphrase.getKey());</span>
-<span class="source-line-no">078</span><span id="line-78">      // TODO: 11/7/23 Modify PassphraseViewModel to refresh automatically after successful creation, update, or deletion.</span>
-<span class="source-line-no">079</span><span id="line-79">      return true;</span>
-<span class="source-line-no">080</span><span id="line-80">    });</span>
-<span class="source-line-no">081</span><span id="line-81">    popup.show();</span>
-<span class="source-line-no">082</span><span id="line-82">  }</span>
-<span class="source-line-no">083</span><span id="line-83">}</span>
+<span class="source-line-no">036</span><span id="line-36">    return binding.getRoot();</span>
+<span class="source-line-no">037</span><span id="line-37">  }</span>
+<span class="source-line-no">038</span><span id="line-38"></span>
+<span class="source-line-no">039</span><span id="line-39">  @Override</span>
+<span class="source-line-no">040</span><span id="line-40">  public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {</span>
+<span class="source-line-no">041</span><span id="line-41">    super.onViewCreated(view, savedInstanceState);</span>
+<span class="source-line-no">042</span><span id="line-42">    viewModel = new ViewModelProvider(requireActivity())</span>
+<span class="source-line-no">043</span><span id="line-43">        .get(PassphraseViewModel.class);</span>
+<span class="source-line-no">044</span><span id="line-44">    getLifecycle().addObserver(viewModel);</span>
+<span class="source-line-no">045</span><span id="line-45">    viewModel</span>
+<span class="source-line-no">046</span><span id="line-46">        .getPassphrases()</span>
+<span class="source-line-no">047</span><span id="line-47">        .observe(</span>
+<span class="source-line-no">048</span><span id="line-48">            getViewLifecycleOwner(),</span>
+<span class="source-line-no">049</span><span id="line-49">            (passphrases) -&gt;</span>
+<span class="source-line-no">050</span><span id="line-50">                binding.passphrases.setAdapter(</span>
+<span class="source-line-no">051</span><span id="line-51">                    new PassphrasesAdapter(</span>
+<span class="source-line-no">052</span><span id="line-52">                        requireContext(),</span>
+<span class="source-line-no">053</span><span id="line-53">                        passphrases,</span>
+<span class="source-line-no">054</span><span id="line-54">                        (v, pos, passphrase) -&gt; openDialog(passphrase.getKey()),</span>
+<span class="source-line-no">055</span><span id="line-55">                        (v, pos, passphrase) -&gt; showPopUpMenu(v, passphrase)</span>
+<span class="source-line-no">056</span><span id="line-56">                    )</span>
+<span class="source-line-no">057</span><span id="line-57">                )</span>
+<span class="source-line-no">058</span><span id="line-58">        );</span>
+<span class="source-line-no">059</span><span id="line-59">  }</span>
+<span class="source-line-no">060</span><span id="line-60"></span>
+<span class="source-line-no">061</span><span id="line-61">  private void openDialog(String key) {</span>
+<span class="source-line-no">062</span><span id="line-62">    Navigation.findNavController(binding.getRoot())</span>
+<span class="source-line-no">063</span><span id="line-63">        .navigate(PassphrasesFragmentDirections.openEditPassphraseFragment().setKey(key));</span>
+<span class="source-line-no">064</span><span id="line-64">  }</span>
+<span class="source-line-no">065</span><span id="line-65"></span>
+<span class="source-line-no">066</span><span id="line-66">  private void showPopUpMenu(View view, Passphrase passphrase) {</span>
+<span class="source-line-no">067</span><span id="line-67">    PopupMenu popup = new PopupMenu(requireContext(), view);</span>
+<span class="source-line-no">068</span><span id="line-68">    Menu menu = popup.getMenu();</span>
+<span class="source-line-no">069</span><span id="line-69">    popup.getMenuInflater().inflate(R.menu.passphrase_actions, menu);</span>
+<span class="source-line-no">070</span><span id="line-70">    menu.findItem(R.id.edit_passphrase).setOnMenuItemClickListener((item) -&gt; {</span>
+<span class="source-line-no">071</span><span id="line-71">      openDialog(passphrase.getKey());</span>
+<span class="source-line-no">072</span><span id="line-72">      return true;</span>
+<span class="source-line-no">073</span><span id="line-73">    });</span>
+<span class="source-line-no">074</span><span id="line-74">    menu.findItem(R.id.delete_passphrase).setOnMenuItemClickListener((item) -&gt; {</span>
+<span class="source-line-no">075</span><span id="line-75">      // TODO: 11/7/23 Ask for user confirmation.</span>
+<span class="source-line-no">076</span><span id="line-76">      viewModel.delete(passphrase.getKey());</span>
+<span class="source-line-no">077</span><span id="line-77">      // TODO: 11/7/23 Modify PassphraseViewModel to refresh automatically after successful creation, update, or deletion.</span>
+<span class="source-line-no">078</span><span id="line-78">      return true;</span>
+<span class="source-line-no">079</span><span id="line-79">    });</span>
+<span class="source-line-no">080</span><span id="line-80">    popup.show();</span>
+<span class="source-line-no">081</span><span id="line-81">  }</span>
+<span class="source-line-no">082</span><span id="line-82">}</span>
 
 
 
