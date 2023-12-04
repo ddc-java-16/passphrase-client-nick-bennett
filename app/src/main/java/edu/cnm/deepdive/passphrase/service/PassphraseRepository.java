@@ -28,7 +28,7 @@ public class PassphraseRepository {
   public Single<List<Passphrase>> get() {
     return signInService
         .refreshBearerToken()
-        .flatMap(serviceProxy::get);
+        .flatMap(bearerToken -> serviceProxy.get(bearerToken));
   }
 
   public Single<List<Passphrase>> search(String fragment) {
